@@ -65,6 +65,14 @@ public class Transaction {
         this.isIncome = isIncome;
     }
 
+    @Override
+    public String toString() {
+        return "Transaction: \n id: " + id +
+               ", \n amount: " + ammount +
+               ", \n description: '" + description + '\'' +
+               ", \n date: " + transactionDate +
+               ", \n isIncome: " + isIncome;
+    }
 
 
 }

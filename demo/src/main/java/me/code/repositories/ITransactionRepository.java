@@ -1,6 +1,8 @@
 package me.code.repositories;
 
+import java.util.List;
 import java.util.UUID;
+
 import me.code.models.Transaction;
 
 public interface ITransactionRepository{
