@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.Scanner;
 import java.util.UUID;
 
 import me.code.commands.CreateTransaction;
@@ -11,6 +12,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello world!");
 
+        Scanner scanner = new Scanner(System.in);
+
         UUID id = UUID.fromString("f1b8f679-07ea-46f0-a138-47572402c8c2");
 
         //filerepo.save(transaction);
@@ -21,7 +24,7 @@ public class Main {
         ITransactionService transactionService = new DefaultTransactionService(fileRepo);
 
         // Create command and run
-        CreateTransaction createTransaction = new CreateTransaction(transactionService);
+        CreateTransaction createTransaction = new CreateTransaction(transactionService, scanner);
         createTransaction.execute();
         
     }

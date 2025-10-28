@@ -1,32 +1,55 @@
 package me.code.commands;
 
 import java.util.Date;
-import java.util.Scanner;
 
 import me.code.models.Transaction;
 import me.code.services.ITransactionService;
 
 public class CreateTransaction extends  Command {
 
-    public CreateTransaction(ITransactionService transactionService) {
-        super(500, "Create new shit", transactionService);
+    public CreateTransaction(ITransactionService transactionService, java.util.Scanner scanner) {
+        super(500, "Create new shit", transactionService, scanner);
     }
     
     @Override
     public void execute() {
-        System.err.println("Do you wish to create a file?");
-        System.out.println(">");
 
-        Scanner scanner = new Scanner(System.in);
+        double amount = 0;
+        String description = "";
+        Date currentDate = new Date();
+        Boolean isIncome = true;
+
+        System.out.println("Do you wish to create a file?");
+        System.out.print("> ");
+
         String answer = scanner.nextLine();
 
-        if(answer.equalsIgnoreCase("yes")) {
-            try {
-                Date currentDate = new Date();
-                Transaction transaction = new Transaction(5000, "Test file!", currentDate, true);
-                transactionService.createTransaction(transaction);
-            } catch (Exception ex) {
-            }
+        if (!answer.equalsIgnoreCase("yes")) {
+            System.out.println("Aborted.");
+            return;
+        }
+
+        System.out.println("Enter amount: ");
+        System.out.print("> ");
+        amount = Double.parseDouble(scanner.nextLine());
+
+        System.out.println("Describe the transaction: ");
+        System.out.print("> "); 
+        description = scanner.nextLine();
+
+        System.out.println("Is it income?: ");
+        System.out.print("> ");
+        if(scanner.nextLine().equalsIgnoreCase("yes")) {
+            isIncome = true;
+        } else {
+            isIncome = false;
+        }
+
+        try {
+            Transaction transaction = new Transaction(amount, description, currentDate, isIncome);
+            transactionService.createTransaction(transaction);            
+        } catch (Exception e) {
+            System.err.println("Failed creating a transaction: " + e.getMessage());
         }
     }
 }
