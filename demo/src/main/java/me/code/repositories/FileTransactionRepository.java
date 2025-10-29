@@ -44,8 +44,31 @@ public class FileTransactionRepository implements ITransactionRepository {
 
     @Override
     public List<Transaction> findAll() throws Exception {
-
         ArrayList<Transaction> transactions = new ArrayList<>();
+
+        Path folder = Paths.get(".");
+        try(var files = Files.list(folder)) {
+            files
+                .filter(Files::isRegularFile)
+                .filter(path -> path.toString().endsWith(EXTENSION))
+                .forEach(path -> {
+                    try {
+                        
+                        String filename = path.getFileName().toString();
+                        String UUIDpart = filename.replace(EXTENSION, "");
+
+                        UUID id = UUID.fromString(UUIDpart);
+                        Transaction transaction = findById(id);
+
+                        if(transaction != null) {
+                            transactions.add(transaction);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error loading all files: " + e.getMessage());
+                    }
+                });
+        }
+
         return transactions;
 
     }

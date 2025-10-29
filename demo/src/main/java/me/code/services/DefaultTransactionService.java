@@ -35,13 +35,13 @@ public class DefaultTransactionService implements ITransactionService {
     @Override
     public Transaction getTransactionById(UUID id) throws Exception {
         Transaction transaction = transactionRepository.findById(id);
-        //Transaction transaction = new Transaction(0, null, null, null);
         return transaction;
     }
 
     @Override
     public Stream<Transaction> getTransactions() throws Exception {
-        return transactionRepository.findAll().stream();
+        Stream<Transaction> transactionList = transactionRepository.findAll().stream();
+        return transactionList;
     }
 
     @Override
