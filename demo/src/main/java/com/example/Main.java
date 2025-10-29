@@ -4,9 +4,13 @@ import java.util.Scanner;
 import java.util.UUID;
 
 import me.code.commands.CreateTransaction;
+import me.code.commands.DeleteTransaction;
+import me.code.commands.FindTransactionById;
 import me.code.repositories.FileTransactionRepository;
 import me.code.services.DefaultTransactionService;
+import me.code.services.ICommandService;
 import me.code.services.ITransactionService;
+import me.code.services.TerminalCommandService;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -24,8 +28,14 @@ public class Main {
         ITransactionService transactionService = new DefaultTransactionService(fileRepo);
 
         // Create command and run
-        CreateTransaction createTransaction = new CreateTransaction(transactionService, scanner);
-        createTransaction.execute();
+        ICommandService commandService = new TerminalCommandService();
+
+        commandService.registerCommand(new CreateTransaction(transactionService, scanner));
+        commandService.registerCommand(new DeleteTransaction(transactionService, scanner));
+        commandService.registerCommand(new FindTransactionById(transactionService, scanner));
         
+        if (commandService instanceof TerminalCommandService service) {
+            service.start();
+        }
     }
 }

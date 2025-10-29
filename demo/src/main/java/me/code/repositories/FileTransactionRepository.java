@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +30,13 @@ public class FileTransactionRepository implements ITransactionRepository {
             }
             
             String[] parts = line.split(",");
+            UUID id = UUID.fromString(parts[0]);
             double ammount = Double.parseDouble(parts[1]);
             String description = parts[2];
             Date transactionDate = new Date(Long.parseLong(parts[3]));
             Boolean isIncome = Boolean.parseBoolean(parts[4]);
 
-            return new Transaction(ammount, description, transactionDate, isIncome);
+            return new Transaction(id, ammount, description, transactionDate, isIncome);
 
         }
         
@@ -65,7 +69,10 @@ public class FileTransactionRepository implements ITransactionRepository {
 
     @Override
     public void delete(Transaction transaction) throws Exception {
+        String filename = getFileName(transaction.getId());
 
+        Path path = Paths.get(filename);
+        Files.delete(path);
     }
 
     private static String getFileName(UUID transactionId) {

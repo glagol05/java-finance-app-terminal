@@ -34,7 +34,8 @@ public class DefaultTransactionService implements ITransactionService {
 
     @Override
     public Transaction getTransactionById(UUID id) throws Exception {
-        Transaction transaction = new Transaction(0, null, null, null);
+        Transaction transaction = transactionRepository.findById(id);
+        //Transaction transaction = new Transaction(0, null, null, null);
         return transaction;
     }
 

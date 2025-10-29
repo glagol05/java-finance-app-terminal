@@ -1,21 +1,22 @@
 package me.code.commands;
 
 import java.util.Date;
+import java.util.Scanner;
 
 import me.code.models.Transaction;
 import me.code.services.ITransactionService;
 
 public class CreateTransaction extends  Command {
 
-    public CreateTransaction(ITransactionService transactionService, java.util.Scanner scanner) {
-        super(500, "Create new shit", transactionService, scanner);
+    public CreateTransaction(ITransactionService transactionService, Scanner scanner) {
+        super("Create transaction", transactionService, scanner);
     }
     
     @Override
     public void execute() {
 
         double amount = 0;
-        String description = "";
+        String description = "N/A";
         Date currentDate = new Date();
         Boolean isIncome = true;
 
@@ -46,8 +47,12 @@ public class CreateTransaction extends  Command {
         }
 
         try {
-            Transaction transaction = new Transaction(amount, description, currentDate, isIncome);
-            transactionService.createTransaction(transaction);            
+            if(amount == 0 && description.equals("")) {
+                System.out.println("You didnt specify amount or add an description. Try again.");
+            } else {
+                Transaction transaction = new Transaction(amount, description, currentDate, isIncome);
+                transactionService.createTransaction(transaction);    
+            }        
         } catch (Exception e) {
             System.err.println("Failed creating a transaction: " + e.getMessage());
         }
