@@ -57,6 +57,11 @@ public class DefaultTransactionService implements ITransactionService {
     }
 
     @Override
+    public void getBalance() throws Exception {
+        transactionRepository.findBalance();
+    }
+
+    @Override
     public Stream<Transaction> searchTransaction() throws Exception {
         return transactionRepository.findAll().stream();
     }

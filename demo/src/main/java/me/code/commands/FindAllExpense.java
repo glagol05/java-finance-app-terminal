@@ -29,7 +29,5 @@ public class FindAllExpense extends Command {
         } catch (Exception e) {
             System.err.println("Error displaying all expenses: " + e.getMessage());
         }
-
     }
-    
 }

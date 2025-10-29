@@ -15,6 +15,8 @@ public interface ITransactionRepository{
 
     List<Transaction> findAllExpenses() throws Exception;
 
+    void findBalance() throws Exception;
+
     void save(Transaction transaction) throws Exception;
 
     void delete(Transaction transaction) throws Exception;

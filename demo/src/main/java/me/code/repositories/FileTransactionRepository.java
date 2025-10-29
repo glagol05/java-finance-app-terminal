@@ -137,6 +137,11 @@ public class FileTransactionRepository implements ITransactionRepository {
     }
 
     @Override
+    public void findBalance() throws Exception {
+
+    }
+
+    @Override
     public void save(Transaction transaction) throws Exception {
         String filename = getFileName(transaction.getId());
 

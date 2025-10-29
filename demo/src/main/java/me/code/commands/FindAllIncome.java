@@ -29,7 +29,5 @@ public class FindAllIncome extends Command {
         } catch (Exception e) {
             System.err.println("Error displaying all income: " + e.getMessage());
         }
-        
     }
-    
 }

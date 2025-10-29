@@ -21,6 +21,8 @@ public interface ITransactionService {
 
     Stream<Transaction> getExpenses() throws Exception;
 
+    void getBalance() throws Exception;
+
     Stream<Transaction> searchTransaction() throws Exception;
 
 }
