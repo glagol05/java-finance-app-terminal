@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import me.code.commands.CreateTransaction;
 import me.code.commands.DeleteTransaction;
+import me.code.commands.FindAllExpense;
+import me.code.commands.FindAllIncome;
 import me.code.commands.FindAllTransactions;
 import me.code.commands.FindTransactionById;
 import me.code.repositories.FileTransactionRepository;
@@ -35,6 +37,8 @@ public class Main {
         commandService.registerCommand(new DeleteTransaction(transactionService, scanner));
         commandService.registerCommand(new FindTransactionById(transactionService, scanner));
         commandService.registerCommand(new FindAllTransactions(transactionService, scanner));
+        commandService.registerCommand(new FindAllIncome(transactionService, scanner));
+        commandService.registerCommand(new FindAllExpense(transactionService, scanner));
         
         if (commandService instanceof TerminalCommandService service) {
             service.start();

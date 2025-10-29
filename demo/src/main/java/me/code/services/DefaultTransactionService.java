@@ -45,6 +45,18 @@ public class DefaultTransactionService implements ITransactionService {
     }
 
     @Override
+    public Stream<Transaction> getIncome() throws Exception {
+        Stream<Transaction> incomeList = transactionRepository.findAllIncome().stream();
+        return incomeList;
+    }
+
+    @Override
+    public Stream<Transaction> getExpenses() throws Exception {
+        Stream<Transaction> expenseList = transactionRepository.findAllExpenses().stream();
+        return expenseList;
+    }
+
+    @Override
     public Stream<Transaction> searchTransaction() throws Exception {
         return transactionRepository.findAll().stream();
     }

@@ -74,6 +74,69 @@ public class FileTransactionRepository implements ITransactionRepository {
     }
 
     @Override
+    public List<Transaction> findAllIncome() throws Exception {
+        ArrayList<Transaction> incomeList = new ArrayList<>();
+
+        Path folder = Paths.get(".");
+        try(var files = Files.list(folder)) {
+            files
+                .filter(Files::isRegularFile)
+                .filter(path -> path.toString().endsWith(EXTENSION))
+                .forEach(path -> {
+                        try(BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
+
+                        String line = reader.readLine();
+
+                        String filename = path.getFileName().toString();
+                        String UUIDpart = filename.replace(EXTENSION, "");
+
+                        UUID id = UUID.fromString(UUIDpart);
+                        Transaction income = findById(id);
+
+                        if(line != null && line.trim().endsWith("true")) {
+                            incomeList.add(income);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error loading all files: " + e.getMessage());
+                    }
+                });
+        }
+        return incomeList;
+    }
+
+    @Override
+    public List<Transaction> findAllExpenses() throws Exception {
+        ArrayList<Transaction> expenseList = new ArrayList<>();
+
+        Path folder = Paths.get(".");
+        try(var files = Files.list(folder)) {
+            files
+                .filter(Files::isRegularFile)
+                .filter(path -> path.toString().endsWith(EXTENSION))
+                .forEach(path -> {
+                    try(BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
+
+                        String line = reader.readLine();
+
+                        String filename = path.getFileName().toString();
+                        String UUIDpart = filename.replace(EXTENSION, "");
+
+                        UUID id = UUID.fromString(UUIDpart);
+                        Transaction expense = findById(id);
+
+                        if(line != null && line.trim().endsWith("false")) {
+                            expenseList.add(expense);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error loading all files: " + e.getMessage());
+                    }
+                });
+        }
+
+        return expenseList;
+    }
+
+    @Override
     public void save(Transaction transaction) throws Exception {
         String filename = getFileName(transaction.getId());
 
