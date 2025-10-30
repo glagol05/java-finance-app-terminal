@@ -57,8 +57,18 @@ public class DefaultTransactionService implements ITransactionService {
     }
 
     @Override
-    public void getBalance() throws Exception {
-        transactionRepository.findBalance();
+    public double getBalance() throws Exception {
+        Double totalIncome = transactionRepository.findAll().stream()
+            .filter(Transaction::getIsIncome)
+            .mapToDouble(Transaction::getAmmount)
+            .sum();
+
+        Double totalExpense = transactionRepository.findAll().stream()
+            .filter(t -> !t.getIsIncome())
+            .mapToDouble(Transaction::getAmmount)
+            .sum();
+
+        return totalIncome - totalExpense;
     }
 
     @Override

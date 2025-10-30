@@ -12,7 +12,12 @@ public class GetBalance extends Command {
 
     @Override
     public void execute() {
-        System.out.println("Your balance: ");
+        try {
+            Double totalBalance = transactionService.getBalance();
+            System.out.println("Your balance: " + totalBalance);   
+        } catch (Exception e) {
+            System.err.println("Error displaying total balance: " + e.getMessage());
+        }
     }
     
 }

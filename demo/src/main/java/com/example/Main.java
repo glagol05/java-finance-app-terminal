@@ -9,6 +9,7 @@ import me.code.commands.FindAllExpense;
 import me.code.commands.FindAllIncome;
 import me.code.commands.FindAllTransactions;
 import me.code.commands.FindTransactionById;
+import me.code.commands.GetBalance;
 import me.code.repositories.FileTransactionRepository;
 import me.code.services.DefaultTransactionService;
 import me.code.services.ICommandService;
@@ -26,11 +27,9 @@ public class Main {
         //filerepo.save(transaction);
         //System.out.println(filerepo.findById(id));
 
-        // Setup layers manually (basic dependency injection)
         FileTransactionRepository fileRepo = new FileTransactionRepository();
         ITransactionService transactionService = new DefaultTransactionService(fileRepo);
 
-        // Create command and run
         ICommandService commandService = new TerminalCommandService();
 
         commandService.registerCommand(new CreateTransaction(transactionService, scanner));
@@ -39,6 +38,7 @@ public class Main {
         commandService.registerCommand(new FindAllTransactions(transactionService, scanner));
         commandService.registerCommand(new FindAllIncome(transactionService, scanner));
         commandService.registerCommand(new FindAllExpense(transactionService, scanner));
+        commandService.registerCommand(new GetBalance(transactionService, scanner));
         
         if (commandService instanceof TerminalCommandService service) {
             service.start();

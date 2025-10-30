@@ -136,10 +136,10 @@ public class FileTransactionRepository implements ITransactionRepository {
         return expenseList;
     }
 
-    @Override
+    /*@Override
     public void findBalance() throws Exception {
 
-    }
+    }*/
 
     @Override
     public void save(Transaction transaction) throws Exception {
