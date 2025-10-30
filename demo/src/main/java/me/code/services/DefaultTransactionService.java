@@ -57,23 +57,31 @@ public class DefaultTransactionService implements ITransactionService {
     }
 
     @Override
-    public double getBalance() throws Exception {
+    public double getTotalIncome() throws Exception {
         Double totalIncome = transactionRepository.findAll().stream()
             .filter(Transaction::getIsIncome)
             .mapToDouble(Transaction::getAmmount)
             .sum();
 
+        return totalIncome;
+    }
+
+    @Override
+    public double getTotalExpense() throws Exception {
         Double totalExpense = transactionRepository.findAll().stream()
             .filter(t -> !t.getIsIncome())
             .mapToDouble(Transaction::getAmmount)
             .sum();
 
-        return totalIncome - totalExpense;
+        return totalExpense;
     }
 
     @Override
-    public Stream<Transaction> searchTransaction() throws Exception {
-        return transactionRepository.findAll().stream();
+    public double getBalance() throws Exception {
+        Double totalIncome = getTotalIncome();
+        Double totalExpense = getTotalExpense();
+
+        return totalIncome - totalExpense;
     }
     
 }

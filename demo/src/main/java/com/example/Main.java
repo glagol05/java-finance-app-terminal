@@ -10,6 +10,8 @@ import me.code.commands.FindAllIncome;
 import me.code.commands.FindAllTransactions;
 import me.code.commands.FindTransactionById;
 import me.code.commands.GetBalance;
+import me.code.commands.GetTotalExpense;
+import me.code.commands.GetTotalIncome;
 import me.code.repositories.FileTransactionRepository;
 import me.code.services.DefaultTransactionService;
 import me.code.services.ICommandService;
@@ -39,6 +41,8 @@ public class Main {
         commandService.registerCommand(new FindAllIncome(transactionService, scanner));
         commandService.registerCommand(new FindAllExpense(transactionService, scanner));
         commandService.registerCommand(new GetBalance(transactionService, scanner));
+        commandService.registerCommand(new GetTotalIncome(transactionService, scanner));
+        commandService.registerCommand(new GetTotalExpense(transactionService, scanner));
         
         if (commandService instanceof TerminalCommandService service) {
             service.start();
