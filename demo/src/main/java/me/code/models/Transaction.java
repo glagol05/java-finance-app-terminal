@@ -1,10 +1,12 @@
 package me.code.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
 public class Transaction {
     
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private final UUID id;
     private double ammount;
     private String description;
@@ -70,7 +72,7 @@ public class Transaction {
         return "Transaction: \n id: " + id +
                ", \n amount: " + ammount +
                ", \n description: '" + description + '\'' +
-               ", \n date: " + transactionDate +
+               ", \n date: " + DATE_FORMAT.format(this.transactionDate) +
                ", \n isIncome: " + isIncome;
     }
 

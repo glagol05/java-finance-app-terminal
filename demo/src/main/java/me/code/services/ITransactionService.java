@@ -17,6 +17,8 @@ public interface ITransactionService {
 
     Stream<Transaction> getTransactions() throws Exception;
 
+    Stream <Transaction> getTransactionsByDate(Integer year, Integer month, Integer day) throws Exception;
+
     Stream<Transaction> getIncome() throws Exception;
 
     Stream<Transaction> getExpenses() throws Exception;

@@ -8,6 +8,7 @@ import me.code.commands.DeleteTransaction;
 import me.code.commands.FindAllExpense;
 import me.code.commands.FindAllIncome;
 import me.code.commands.FindAllTransactions;
+import me.code.commands.FindAllTransactionsByDate;
 import me.code.commands.FindTransactionById;
 import me.code.commands.GetBalance;
 import me.code.commands.GetTotalExpense;
@@ -43,6 +44,7 @@ public class Main {
         commandService.registerCommand(new GetBalance(transactionService, scanner));
         commandService.registerCommand(new GetTotalIncome(transactionService, scanner));
         commandService.registerCommand(new GetTotalExpense(transactionService, scanner));
+        commandService.registerCommand(new FindAllTransactionsByDate(transactionService, scanner));
         
         if (commandService instanceof TerminalCommandService service) {
             service.start();

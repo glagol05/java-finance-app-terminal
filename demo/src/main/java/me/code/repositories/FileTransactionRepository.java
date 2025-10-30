@@ -136,10 +136,29 @@ public class FileTransactionRepository implements ITransactionRepository {
         return expenseList;
     }
 
-    /*@Override
-    public void findBalance() throws Exception {
+    @Override
+    public List<Transaction> findAllByDate(Integer year, Integer month, Integer day) throws Exception {
+        List<Transaction> allTransactions = findAll();
 
-    }*/
+        return allTransactions.stream()
+            .filter(t -> {
+                java.util.Calendar cal = java.util.Calendar.getInstance();
+                cal.setTime(t.getDate());
+
+                boolean match = true;
+                if (year != null) {
+                    match &= cal.get(java.util.Calendar.YEAR) == year;
+                }
+                if (month != null) {
+                    match &= (cal.get(java.util.Calendar.MONTH) + 1) == month;
+                }
+                if (day != null) {
+                    match &= cal.get(java.util.Calendar.DAY_OF_MONTH) == day;
+                }
+                return match;
+            })
+        .toList();
+}
 
     @Override
     public void save(Transaction transaction) throws Exception {

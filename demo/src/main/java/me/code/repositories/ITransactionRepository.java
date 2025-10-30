@@ -15,7 +15,7 @@ public interface ITransactionRepository{
 
     List<Transaction> findAllExpenses() throws Exception;
 
-    //void findBalance() throws Exception;
+    List<Transaction> findAllByDate(Integer year, Integer month, Integer day) throws Exception;
 
     void save(Transaction transaction) throws Exception;
 

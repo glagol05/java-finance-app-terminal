@@ -38,6 +38,20 @@ public class CreateTransaction extends  Command {
         System.out.print("> "); 
         description = scanner.nextLine();
 
+        while (true) { 
+            System.out.println("Enter date (yyyy-mm-dd) format. Press enter for todays date");
+            System.out.print(">");
+            String inputDate = scanner.nextLine();
+
+            try {
+                currentDate = Transaction.DATE_FORMAT.parse(inputDate);
+                break;
+            } catch (Exception e) {
+                System.err.println("Incorrect date, try again");
+            }
+        }
+        
+
         System.out.println("Is it income?: ");
         System.out.print("> ");
         if(scanner.nextLine().equalsIgnoreCase("yes")) {

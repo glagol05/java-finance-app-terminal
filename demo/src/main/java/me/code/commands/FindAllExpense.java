@@ -23,7 +23,7 @@ public class FindAllExpense extends Command {
                     System.out.println("No expenses found");
                 } else {
                     System.out.println("All expenses: ");
-                    expenseList.forEach(System.out::println);
+                    expenses.forEach(System.out::println);
                 }
             }
         } catch (Exception e) {

@@ -45,6 +45,11 @@ public class DefaultTransactionService implements ITransactionService {
     }
 
     @Override
+    public Stream<Transaction> getTransactionsByDate(Integer year, Integer month, Integer day) throws Exception {
+        return transactionRepository.findAllByDate(year, month, day).stream();
+    }
+
+    @Override
     public Stream<Transaction> getIncome() throws Exception {
         Stream<Transaction> incomeList = transactionRepository.findAllIncome().stream();
         return incomeList;
@@ -82,6 +87,5 @@ public class DefaultTransactionService implements ITransactionService {
         Double totalExpense = getTotalExpense();
 
         return totalIncome - totalExpense;
-    }
-    
+    }   
 }
