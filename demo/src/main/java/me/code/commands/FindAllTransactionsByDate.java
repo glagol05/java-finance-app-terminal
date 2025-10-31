@@ -2,6 +2,7 @@ package me.code.commands;
 
 import java.util.Scanner;
 
+import me.code.models.Transaction;
 import me.code.services.ITransactionService;
 
 public class FindAllTransactionsByDate extends Command {
@@ -36,6 +37,23 @@ public class FindAllTransactionsByDate extends Command {
                     System.out.println("Transactions found:");
                     transactions.forEach(System.out::println);
                 }
+
+                double totalIncome = transactions.stream()
+                        .filter(Transaction::getIsIncome)
+                        .mapToDouble(Transaction::getAmmount)
+                        .sum();
+
+                double totalExpense = transactions.stream()
+                        .filter(t -> !t.getIsIncome())
+                        .mapToDouble(Transaction::getAmmount)
+                        .sum();
+
+                double balance = totalIncome - totalExpense;
+
+                System.out.println("\n--- Summary ---");
+                System.out.println("Total income: " + totalIncome);
+                System.out.println("Total expense: " + totalExpense);
+                System.out.println("Balance: " + balance);
 
             } catch (Exception e) {
                 System.err.println("Error retrieving transactions by date: " + e.getMessage());
