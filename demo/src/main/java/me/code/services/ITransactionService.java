@@ -11,7 +11,7 @@ public interface ITransactionService {
 
     Transaction deleteTransactionById(UUID id) throws Exception;
 
-    Transaction updateTransactionById(UUID id) throws Exception;
+    Transaction updateTransaction(Transaction transaction) throws Exception;
 
     Transaction getTransactionById(UUID id) throws Exception;
 
@@ -28,5 +28,4 @@ public interface ITransactionService {
     double getTotalExpense() throws Exception;
 
     double getBalance() throws Exception;
-
 }

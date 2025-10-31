@@ -27,9 +27,17 @@ public class DefaultTransactionService implements ITransactionService {
     }
 
     @Override
-    public Transaction updateTransactionById(UUID id) throws Exception {
-        Transaction transaction = new Transaction(0, null, null, null);
-        return transaction;
+    public Transaction updateTransaction(Transaction updatedTransaction) throws Exception {
+        UUID id = updatedTransaction.getId();
+        Transaction existingTransaction = transactionRepository.findById(id);
+        if (existingTransaction == null) {
+            throw new Exception("Transaction not found with ID: " + id);
+        }
+
+        transactionRepository.delete(existingTransaction);
+        transactionRepository.save(updatedTransaction);
+
+        return updatedTransaction;
     }
 
     @Override
