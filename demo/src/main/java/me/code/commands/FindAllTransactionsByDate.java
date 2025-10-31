@@ -8,7 +8,7 @@ import me.code.services.ITransactionService;
 public class FindAllTransactionsByDate extends Command {
 
     public FindAllTransactionsByDate(ITransactionService transactionService, Scanner scanner) {
-        super("Display transactions during a time period", transactionService, scanner);
+        super("Display transactions by date", transactionService, scanner);
     }
     
     @Override

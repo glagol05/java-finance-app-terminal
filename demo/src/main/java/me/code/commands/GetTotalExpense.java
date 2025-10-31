@@ -7,7 +7,7 @@ import me.code.services.ITransactionService;
 public class GetTotalExpense extends Command {
 
     public GetTotalExpense(ITransactionService transactionService, Scanner scanner) {
-        super("Display total expense", transactionService, scanner);
+        super("Get total expense", transactionService, scanner);
     }
 
     @Override

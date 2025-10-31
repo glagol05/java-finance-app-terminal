@@ -9,7 +9,7 @@ import me.code.services.ITransactionService;
 public class FindAllTransactions extends Command {
 
     public FindAllTransactions(ITransactionService transactionService, Scanner scanner) {
-        super("Find all transactions", transactionService, scanner);
+        super("Display all transactions", transactionService, scanner);
     }
 
     @Override

@@ -11,7 +11,7 @@ public class TerminalCommandService implements ICommandService {
     private final List<Command> commands = new ArrayList<>();
 
     public void start() {
-        System.out.println("TRANSACTIONATOR8000");
+        System.out.println("---Finance machine---");
         System.out.println("Choose one of following commands: ");
 
         for(Command command : commands) {
