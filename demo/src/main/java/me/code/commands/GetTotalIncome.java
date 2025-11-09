@@ -14,9 +14,9 @@ public class GetTotalIncome extends Command {
     public void execute() {
         try {
             Double totalIncome = transactionService.getTotalIncome();
-            System.out.println("Total expense: " + totalIncome);
+            System.out.println("Total income: " + totalIncome);
         } catch (Exception e) {
-            System.err.println("Error displaying total expense: " + e.getMessage());
+            System.err.println("Error displaying total income: " + e.getMessage());
         }
     }
     

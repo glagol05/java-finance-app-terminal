@@ -8,23 +8,23 @@ public class Transaction {
     
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private final UUID id;
-    private double ammount;
+    private double amount;
     private String description;
     private Date transactionDate;
     private Boolean isIncome;
 
-    public Transaction(double ammount, String description, Date transactionDate, Boolean isIncome) {
+    public Transaction(double amount, String description, Date transactionDate, Boolean isIncome) {
         this.id = UUID.randomUUID();
-        this.ammount = ammount;
+        this.amount = amount;
         this.description = description;
         this.transactionDate = transactionDate;
         this.isIncome = isIncome;
 
     }
 
-    public Transaction(UUID id, double ammount, String description, Date transactionDate, Boolean isIncome) {
+    public Transaction(UUID id, double amount, String description, Date transactionDate, Boolean isIncome) {
         this.id = id;
-        this.ammount = ammount;
+        this.amount = amount;
         this.description = description;
         this.transactionDate = transactionDate;
         this.isIncome = isIncome;
@@ -35,12 +35,12 @@ public class Transaction {
         return id;
     }
 
-    public double getAmmount() {
-        return ammount;
+    public double getamount() {
+        return amount;
     }
 
-    public void setAmmount(double ammount) {
-        this.ammount = ammount;
+    public void setamount(double amount) {
+        this.amount = amount;
     }
 
     public String getDescription() {
@@ -70,7 +70,7 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction: \n id: " + id +
-               ", \n amount: " + ammount +
+               ", \n amount: " + amount +
                ", \n description: '" + description + '\'' +
                ", \n date: " + DATE_FORMAT.format(this.transactionDate) +
                ", \n isIncome: " + isIncome;

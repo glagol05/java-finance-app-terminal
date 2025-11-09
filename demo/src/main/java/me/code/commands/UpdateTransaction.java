@@ -26,9 +26,9 @@ public class UpdateTransaction extends Command {
                 return;
             }
 
-            System.out.println("Current amount is (" + existingTransaction.getAmmount() + "): ");
+            System.out.println("Current amount is (" + existingTransaction.getamount() + "): ");
             String amountInput = scanner.nextLine();
-            double newAmount = amountInput.isBlank() ? existingTransaction.getAmmount() : Double.parseDouble(amountInput);
+            double newAmount = amountInput.isBlank() ? existingTransaction.getamount() : Double.parseDouble(amountInput);
 
             System.out.print("New description (" + existingTransaction.getDescription() + "): ");
             String descInput = scanner.nextLine();

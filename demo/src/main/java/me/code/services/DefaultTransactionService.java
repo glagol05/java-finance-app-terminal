@@ -73,7 +73,7 @@ public class DefaultTransactionService implements ITransactionService {
     public double getTotalIncome() throws Exception {
         Double totalIncome = transactionRepository.findAll().stream()
             .filter(Transaction::getIsIncome)
-            .mapToDouble(Transaction::getAmmount)
+            .mapToDouble(Transaction::getamount)
             .sum();
 
         return totalIncome;
@@ -83,7 +83,7 @@ public class DefaultTransactionService implements ITransactionService {
     public double getTotalExpense() throws Exception {
         Double totalExpense = transactionRepository.findAll().stream()
             .filter(t -> !t.getIsIncome())
-            .mapToDouble(Transaction::getAmmount)
+            .mapToDouble(Transaction::getamount)
             .sum();
 
         return totalExpense;

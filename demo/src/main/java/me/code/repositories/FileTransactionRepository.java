@@ -31,12 +31,12 @@ public class FileTransactionRepository implements ITransactionRepository {
             
             String[] parts = line.split(",");
             UUID id = UUID.fromString(parts[0]);
-            double ammount = Double.parseDouble(parts[1]);
+            double amount = Double.parseDouble(parts[1]);
             String description = parts[2];
             Date transactionDate = new Date(Long.parseLong(parts[3]));
             Boolean isIncome = Boolean.parseBoolean(parts[4]);
 
-            return new Transaction(id, ammount, description, transactionDate, isIncome);
+            return new Transaction(id, amount, description, transactionDate, isIncome);
 
         }
         
@@ -165,7 +165,7 @@ public class FileTransactionRepository implements ITransactionRepository {
         String filename = getFileName(transaction.getId());
 
         try (FileOutputStream fos = new FileOutputStream(filename)) {
-            String line = transaction.getId() + "," + transaction.getAmmount() + "," +
+            String line = transaction.getId() + "," + transaction.getamount() + "," +
                         transaction.getDescription() + "," +
                         transaction.getDate().getTime() + "," + transaction.getIsIncome() + "\n";
             fos.write(line.getBytes());

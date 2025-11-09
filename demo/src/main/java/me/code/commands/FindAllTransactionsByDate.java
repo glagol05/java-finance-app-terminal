@@ -40,12 +40,12 @@ public class FindAllTransactionsByDate extends Command {
 
                 double totalIncome = transactions.stream()
                         .filter(Transaction::getIsIncome)
-                        .mapToDouble(Transaction::getAmmount)
+                        .mapToDouble(Transaction::getamount)
                         .sum();
 
                 double totalExpense = transactions.stream()
                         .filter(t -> !t.getIsIncome())
-                        .mapToDouble(Transaction::getAmmount)
+                        .mapToDouble(Transaction::getamount)
                         .sum();
 
                 double balance = totalIncome - totalExpense;
