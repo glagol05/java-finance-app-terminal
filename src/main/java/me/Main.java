@@ -13,7 +13,8 @@ import me.code.commands.GetBalance;
 import me.code.commands.GetTotalExpense;
 import me.code.commands.GetTotalIncome;
 import me.code.commands.UpdateTransaction;
-import me.code.repositories.FileTransactionRepository;
+import me.code.repositories.PostgresDataSource;
+import me.code.repositories.PostgresTransactionRepository;
 import me.code.services.DefaultTransactionService;
 import me.code.services.ICommandService;
 import me.code.services.ITransactionService;
@@ -24,8 +25,10 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        FileTransactionRepository fileRepo = new FileTransactionRepository();
-        ITransactionService transactionService = new DefaultTransactionService(fileRepo);
+        PostgresTransactionRepository transactionRepo = 
+            new PostgresTransactionRepository(PostgresDataSource.getDataSource());
+
+        ITransactionService transactionService = new DefaultTransactionService(transactionRepo);
 
         ICommandService commandService = new TerminalCommandService();
 
@@ -40,7 +43,7 @@ public class Main {
         commandService.registerCommand(new GetTotalExpense(transactionService, scanner));
         commandService.registerCommand(new FindAllTransactionsByDate(transactionService, scanner));
         commandService.registerCommand(new UpdateTransaction(transactionService, scanner));
-        
+
         if (commandService instanceof TerminalCommandService service) {
             service.start();
         }

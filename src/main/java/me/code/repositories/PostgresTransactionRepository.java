@@ -1,5 +1,189 @@
 package me.code.repositories;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.sql.DataSource;
+
+import me.code.models.Transaction;
+
+public class PostgresTransactionRepository implements ITransactionRepository {
+
+    private final DataSource dataSource;
+
+    public PostgresTransactionRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @Override
+    public Transaction findById(UUID transactionId) throws Exception {
+        String sql = """
+            SELECT id, amount, description, transaction_date, is_income
+            FROM transactions
+            WHERE id = ?
+        """;
+
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setObject(1, transactionId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+
+                return mapRow(rs);
+            }
+        }
+    }
+
+    @Override
+    public List<Transaction> findAll() throws Exception {
+        String sql = """
+            SELECT id, amount, description, transaction_date, is_income
+            FROM transactions
+            ORDER BY transaction_date DESC
+        """;
+
+        List<Transaction> results = new ArrayList<>();
+
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                results.add(mapRow(rs));
+            }
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<Transaction> findAllIncome() throws Exception {
+        return findByIncomeFlag(true);
+    }
+
+    @Override
+    public List<Transaction> findAllExpenses() throws Exception {
+        return findByIncomeFlag(false);
+    }
+
+    private List<Transaction> findByIncomeFlag(boolean isIncome) throws Exception {
+        String sql = """
+            SELECT id, amount, description, transaction_date, is_income
+            FROM transactions
+            WHERE is_income = ?
+        """;
+
+        List<Transaction> results = new ArrayList<>();
+
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setBoolean(1, isIncome);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    results.add(mapRow(rs));
+                }
+            }
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<Transaction> findAllByDate(Integer year, Integer month, Integer day) throws Exception {
+        String sql = """
+            SELECT id, amount, description, transaction_date, is_income
+            FROM transactions
+            WHERE (? IS NULL OR EXTRACT(YEAR FROM transaction_date) = ?)
+            AND (? IS NULL OR EXTRACT(MONTH FROM transaction_date) = ?)
+            AND (? IS NULL OR EXTRACT(DAY FROM transaction_date) = ?)
+        """;
+
+        List<Transaction> results = new ArrayList<>();
+
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setObject(1, year);
+            ps.setObject(2, year);
+            ps.setObject(3, month);
+            ps.setObject(4, month);
+            ps.setObject(5, day);
+            ps.setObject(6, day);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    results.add(mapRow(rs));
+                }
+            }
+        }
+
+        return results;
+    }
+
+    @Override
+    public void save(Transaction transaction) throws Exception {
+        String sql = """
+            INSERT INTO transactions (id, amount, description, transaction_date, is_income)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT (id) DO UPDATE SET
+                amount = EXCLUDED.amount,
+                description = EXCLUDED.description,
+                transaction_date = EXCLUDED.transaction_date,
+                is_income = EXCLUDED.is_income
+        """;
+
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setObject(1, transaction.getId());
+            ps.setDouble(2, transaction.getamount());
+            ps.setString(3, transaction.getDescription());
+            ps.setDate(4, new Date(transaction.getDate().getTime()));
+            ps.setBoolean(5, transaction.getIsIncome());
+
+            ps.executeUpdate();
+        }
+    }
+
+    @Override
+    public void delete(Transaction transaction) throws Exception {
+        String sql = "DELETE FROM transactions WHERE id = ?";
+
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setObject(1, transaction.getId());
+            ps.executeUpdate();
+        }
+    }
+
+    private Transaction mapRow(ResultSet rs) throws Exception {
+        UUID id = rs.getObject("id", UUID.class);
+        double amount = rs.getDouble("amount");
+        String description = rs.getString("description");
+        Date date = rs.getDate("transaction_date");
+        Boolean isIncome = rs.getBoolean("is_income");
+
+        return new Transaction(id, amount, description, date, isIncome);
+    }
+}
+
+
+
+
+/*package me.code.repositories;
+
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -189,4 +373,4 @@ public class FileTransactionRepository implements ITransactionRepository {
         return transactionId.toString() + EXTENSION;
     }
 
-}
+}*/

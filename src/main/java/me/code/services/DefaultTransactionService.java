@@ -34,7 +34,7 @@ public class DefaultTransactionService implements ITransactionService {
             throw new Exception("Transaction not found with ID: " + id);
         }
 
-        transactionRepository.delete(existingTransaction);
+        //transactionRepository.delete(existingTransaction);
         transactionRepository.save(updatedTransaction);
 
         return updatedTransaction;
