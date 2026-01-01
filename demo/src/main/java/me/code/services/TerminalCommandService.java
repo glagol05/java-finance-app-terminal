@@ -18,7 +18,7 @@ public class TerminalCommandService implements ICommandService {
             System.out.println(command);
         }
 
-        System.out.println("Quit - Quit the program");
+        System.out.println("Exit\n");
 
         Scanner scanner = new Scanner(System.in);
 
