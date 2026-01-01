@@ -15,7 +15,7 @@ import java.util.UUID;
 import me.code.models.Transaction;
 
 public class FileTransactionRepository implements ITransactionRepository {
- 
+
     private static final String EXTENSION = ".txt";
 
     @Override
