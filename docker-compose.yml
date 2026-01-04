@@ -5,7 +5,7 @@ services:
     image: postgres:16
     container_name: finance-tracker
     environment:
-      POSTGRES_USER: user
+      POSTGRES_USER: transactionUser
       POSTGRES_PASSWORD: password
       POSTGRES_DB: transactiondb
     ports:
